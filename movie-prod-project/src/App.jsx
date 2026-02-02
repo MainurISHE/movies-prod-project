@@ -4,30 +4,41 @@ import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [movies, setMovies] = useState([])
+  const [showWatched, setShowWatched] = useState(false)
+
+  const addMovie = (name) => {
+    const newMovie = {
+      id: Date.now(),
+      name,
+      watched: false,
+      reaction: null
+    }
+
+    setMovies([...movies, newMovie])
+  }
+
+  const toggleWatched = (id) => {
+    setMovies(movies.map(movies => movie.id === id
+      ? {...movie, watched: !movie.watched, reaction: null }
+      : movie
+    ))
+  }
+
+  const setReaction = (id, reaction) => {
+    setMovies(movies.map(movies => movie.id === id
+      ? {...movie, reaction}
+      : movie
+    ))
+  }
+
+  const filteredMovies = movies.filter(movie =>
+    showWatched ? movie.watched : !movie.watched
+  )
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      
     </>
   )
 }
